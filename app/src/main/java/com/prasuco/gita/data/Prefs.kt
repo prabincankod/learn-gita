@@ -48,6 +48,16 @@ class Prefs(private val ctx: Context) {
     suspend fun setStreak(n: Int, day: Long) = ctx.ds.edit { it[STREAK] = n; it[STREAK_DAY] = day }
     suspend fun xp() = ctx.ds.data.map { it[XP] ?: 0 }.first()
     suspend fun addXp(n: Int) = ctx.ds.edit { it[XP] = (it[XP] ?: 0) + n }
+    private val FIRST_DAY = longPreferencesKey("first_day")
+    /** First day the app was opened (epoch day). Set once, drives personal history. */
+    suspend fun ensureFirstDay(today: Long): Long {
+        var day = ctx.ds.data.map { it[FIRST_DAY] ?: 0L }.first()
+        if (day <= 0L) {
+            day = today
+            ctx.ds.edit { it[FIRST_DAY] = day }
+        }
+        return day
+    }
     private val RECENT_SEARCH = stringPreferencesKey("recent_searches")
     suspend fun recentSearches(): List<String> =
         ctx.ds.data.map { it[RECENT_SEARCH]?.split("|")?.filter { s -> s.isNotBlank() } ?: emptyList() }.first()

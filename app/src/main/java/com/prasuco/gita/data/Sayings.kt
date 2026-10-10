@@ -25,13 +25,19 @@ suspend fun Repository.dailySaying(date: LocalDate = LocalDate.now()): Pair<Vers
 }
 
 /**
- * The past [days] daily verses, newest first. Powers the "past week" carousel.
+ * Personal past verses, newest first — never older than [since] (install day),
+ * so a fresh install shows no phantom "past week".
  */
-suspend fun Repository.pastVerses(days: Int = 7, date: LocalDate = LocalDate.now()): List<Pair<LocalDate, Verse>> {
+suspend fun Repository.pastVerses(
+    days: Int = 7,
+    date: LocalDate = LocalDate.now(),
+    since: LocalDate? = null
+): List<Pair<LocalDate, Verse>> {
     val all = db.verses().allOrdered()
     if (all.isEmpty()) return emptyList()
-    return (0 until days).map { back ->
+    return (0 until days).mapNotNull { back ->
         val d = date.minusDays(back.toLong())
+        if (since != null && d.isBefore(since)) return@mapNotNull null
         val idx = (d.dayOfYear + d.year * 37) % all.size
         d to all[idx]
     }

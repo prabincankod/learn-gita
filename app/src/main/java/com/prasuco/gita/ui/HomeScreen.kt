@@ -96,7 +96,10 @@ fun HomeScreen(
             c.number to try { repo.learnedInChapter(c.number) } catch (_: Exception) { 0 }
         }
         past = try {
-            repo.pastVerses().map { (date, v) -> Triple(date, v, repo.dailySaying(date)?.second ?: "") }
+            val first = java.time.LocalDate.ofEpochDay(
+                repo.prefs.ensureFirstDay(java.time.LocalDate.now().toEpochDay())
+            )
+            repo.pastVerses(since = first).map { (date, v) -> Triple(date, v, repo.dailySaying(date)?.second ?: "") }
         } catch (_: Exception) { emptyList() }
     }
     Surface(Modifier.fillMaxSize(), color = Bg) {
