@@ -3,8 +3,11 @@ package com.prasuco.gita.ui
 import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -144,8 +147,23 @@ fun ReminderStep(remind: Boolean, hh: Int, mm: Int, onToggle: () -> Unit, onTime
         Spacer(Modifier.height(4.dp))
         Text("One quiet notification each morning with the day's verse.", fontSize = 14.sp, color = Ink2, textAlign = TextAlign.Center)
         Spacer(Modifier.height(16.dp))
-        OptionCard(if (remind) "Daily verse · ON" else "Daily verse · OFF", "${fmtTime(hh, mm)} · local only", remind) { onToggle() }
-        Spacer(Modifier.height(8.dp))
-        OptionCard("Reminder time · ${fmtTime(hh, mm)}", "Tap to change", false) { onTime() }
+        AppCard(Modifier.fillMaxWidth()) {
+            Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                Eyebrow("Daily reminder", Ink2)
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    fmtTime(hh, mm), fontWeight = FontWeight.ExtraBold, fontSize = 46.sp, color = Ink,
+                    textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth().clickable { onTime() }
+                )
+                Text("Tap the time to change · local only", fontSize = 13.sp, color = Ink2, textAlign = TextAlign.Center)
+                Spacer(Modifier.height(12.dp))
+                AppPill(
+                    label = if (remind) "Reminder on" else "Reminder off",
+                    selected = remind,
+                    icon = Icons.Default.Notifications,
+                    onClick = onToggle
+                )
+            }
+        }
     }
 }

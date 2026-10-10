@@ -42,7 +42,7 @@ fun SavedScreen(repo: Repository, openVerse: (Int, Int) -> Unit, goToday: () -> 
                             ) { Text("Remove", color = Color.White, fontWeight = FontWeight.Bold) }
                         },
                         content = {
-                            OptionCard("Chapter ${b.chapter} · Verse ${b.verse}", null, false) { openVerse(b.chapter, b.verse) }
+                            OptionCard("Chapter ${b.chapter} · Verse ${b.verse}", null, false, { openVerse(b.chapter, b.verse) })
                         }
                     )
                 }

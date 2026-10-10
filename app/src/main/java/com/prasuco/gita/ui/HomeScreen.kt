@@ -12,6 +12,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.BookmarkBorder
 import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Stop
 import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.*
@@ -113,19 +114,26 @@ fun HomeScreen(
                     onDismissRequest = { showSettings = false },
                     confirmButton = { TextButton(onClick = { showSettings = false }) { Text("Done", color = Ink) } },
                     containerColor = Color.White,
-                    title = { Text("Daily verse", fontWeight = FontWeight.Bold, color = Ink) },
+                    title = { Eyebrow("Daily verse") },
                     text = {
-                        Column {
-                            OptionCard(
-                                if (remind) "Reminder · ON" else "Reminder · OFF",
-                                "${fmtTime(hh, mm)} · local only", remind
-                            ) {
-                                scope.launch {
-                                    repo.prefs.setReminder(!remind, hh, mm); remind = !remind
+                        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+                            Text(
+                                fmtTime(hh, mm), fontWeight = FontWeight.ExtraBold, fontSize = 42.sp, color = Ink,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth().clickable { pickTime = true }
+                            )
+                            Text("Tap the time to change · local only", fontSize = 13.sp, color = Ink2, textAlign = TextAlign.Center)
+                            Spacer(Modifier.height(12.dp))
+                            AppPill(
+                                label = if (remind) "Reminder on" else "Reminder off",
+                                selected = remind,
+                                icon = Icons.Default.Notifications,
+                                onClick = {
+                                    scope.launch {
+                                        repo.prefs.setReminder(!remind, hh, mm); remind = !remind
+                                    }
                                 }
-                            }
-                            Spacer(Modifier.height(8.dp))
-                            OptionCard("Time · ${fmtTime(hh, mm)}", "Tap to change", false) { pickTime = true }
+                            )
                         }
                     }
                 )

@@ -168,7 +168,13 @@ fun TopBar(streak: Int, read: Int, onGear: () -> Unit) {
 }
 
 @Composable
-fun OptionCard(label: String, sub: String? = null, selected: Boolean, onClick: () -> Unit) {
+fun OptionCard(
+    label: String,
+    sub: String? = null,
+    selected: Boolean,
+    onClick: () -> Unit,
+    trailing: (@Composable () -> Unit)? = null
+) {
     val shape = RoundedCornerShape(16.dp)
     Row(
         Modifier.fillMaxWidth().modernCard(shape)
@@ -182,6 +188,7 @@ fun OptionCard(label: String, sub: String? = null, selected: Boolean, onClick: (
             if (sub != null) Text(sub, fontSize = 13.sp, color = Ink2, modifier = Modifier.padding(top = 2.dp))
         }
         if (selected) Icon(Icons.Default.Check, null, tint = DeepGold)
+        trailing?.invoke()
     }
 }
 
