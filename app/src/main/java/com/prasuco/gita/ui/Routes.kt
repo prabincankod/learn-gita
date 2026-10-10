@@ -9,6 +9,7 @@ object Routes {
     const val VERSE = "verse/{ch}/{v}"
     const val SEARCH = "search"
     const val BOOKMARKS = "bookmarks"
+    const val ABOUT = "about"
     fun chapter(ch: Int) = "chapter/$ch"
     fun verse(ch: Int, v: Int) = "verse/$ch/$v"
 }

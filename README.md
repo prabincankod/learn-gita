@@ -44,6 +44,9 @@ The upload keystore lives in `keystores/` and is **never committed**.
 On first launch `Repository.ensureSeeded()` loads the bundle into Room (`gita.db`).
 Regenerate with: `python3 tools/make_bundle.py`
 
+Verse text, translations and commentaries derive from the open
+[gita/gita](https://github.com/gita/gita) dataset, curated for daily reading.
+
 ## Project layout
 
 ```
@@ -53,6 +56,7 @@ app/src/main/java/com/prasuco/gita/
   ui/         Theme.kt  Routes.kt  Components.kt  ChapterArt.kt
               Onboarding.kt  HomeScreen.kt  ChaptersScreen.kt
               ChapterDetailScreen.kt  VerseScreen.kt  SearchScreen.kt  SavedScreen.kt
+              About.kt
   audio/      VerseSpeaker.kt
   share/      ShareCards.kt
   widget/     Providers.kt  WidgetUpdater.kt

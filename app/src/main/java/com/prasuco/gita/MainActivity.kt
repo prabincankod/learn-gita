@@ -94,8 +94,11 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.ONBOARDING) { OnboardingScreen(repo) { nav.navigate(Routes.HOME) { popUpTo(0) } } }
                         composable(Routes.HOME) {
-                            HomeScreen(repo,
-                                goVerse = { ch, v -> nav.navigate(Routes.verse(ch, v)) })
+                            HomeScreen(
+                                repo,
+                                goVerse = { ch, v -> nav.navigate(Routes.verse(ch, v)) },
+                                goAbout = { nav.navigate(Routes.ABOUT) }
+                            )
                         }
                         composable(Routes.CHAPTERS) { ChaptersScreen(repo) { nav.navigate(Routes.chapter(it)) } }
                         composable(Routes.CHAPTER, arguments = listOf(navArgument("ch") { type = NavType.IntType })) {
@@ -113,6 +116,7 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(Routes.SEARCH) { SearchScreen(repo) { ch, v -> nav.navigate(Routes.verse(ch, v)) } }
                         composable(Routes.BOOKMARKS) { SavedScreen(repo, { ch, v -> nav.navigate(Routes.verse(ch, v)) }, { nav.navigate(Routes.HOME) { popUpTo(Routes.HOME) } }) }
+                        composable(Routes.ABOUT) { AboutScreen(repo, backOrHome) }
                     }
                 }
             }

@@ -44,7 +44,7 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(
-    repo: Repository, goVerse: (Int, Int) -> Unit
+    repo: Repository, goVerse: (Int, Int) -> Unit, goAbout: () -> Unit
 ) {
     val ctx = LocalContext.current
     val scope = rememberCoroutineScope()
@@ -134,6 +134,10 @@ fun HomeScreen(
                                     }
                                 }
                             )
+                            Spacer(Modifier.height(8.dp))
+                            TextButton(onClick = { showSettings = false; goAbout() }) {
+                                Text("About this app", color = DeepGold, fontWeight = FontWeight.SemiBold)
+                            }
                         }
                     }
                 )
@@ -227,7 +231,12 @@ fun HomeScreen(
                         }
                     }
                 }
-                // chapters live in the Chapters tab — feed ends with past week
+                // chapters live in the Chapters tab — feed ends quietly
+                item {
+                    Box(Modifier.fillMaxWidth().padding(top = 4.dp), contentAlignment = Alignment.Center) {
+                        TextButton(onClick = goAbout) { Text("About · Privacy · Data", color = Muted, fontSize = 12.sp) }
+                    }
+                }
             }
         }
     }
