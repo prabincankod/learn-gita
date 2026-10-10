@@ -226,7 +226,16 @@ fun ReminderTimeDialog(h: Int, m: Int, onDismiss: () -> Unit, onConfirm: (Int, I
 }
 
 @Composable
-fun TopBarBack(title: String, onBack: () -> Unit) {
+fun TopBarBack(title: String, subtitle: String? = null, onBack: () -> Unit) {
     @OptIn(ExperimentalMaterial3Api::class)
-    TopAppBar(title = { Text(title) }, navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "back") } })
+    TopAppBar(
+        title = {
+            Column {
+                Text(title, fontWeight = FontWeight.Bold, fontSize = 17.sp, color = Ink)
+                if (!subtitle.isNullOrBlank()) Text(subtitle, fontSize = 12.sp, color = Ink2)
+            }
+        },
+        navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "back", tint = Ink) } },
+        colors = TopAppBarDefaults.topAppBarColors(containerColor = Bg)
+    )
 }

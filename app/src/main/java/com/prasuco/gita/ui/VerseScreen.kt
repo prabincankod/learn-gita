@@ -22,14 +22,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.prasuco.gita.data.Repository
 import com.prasuco.gita.data.Verse
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 // ---------- verse reader ----------
 
 @Composable
-fun VerseScreen(repo: Repository, ch: Int, v: Int) {
+fun VerseScreen(repo: Repository, ch: Int, v: Int, onBack: () -> Unit) {
     val scope = rememberCoroutineScope()
     var showSave by remember { mutableStateOf(false) }
+    var chapterName by remember { mutableStateOf("") }
     var verse by remember { mutableStateOf<Verse?>(null) }
     var trs by remember { mutableStateOf(emptyList<com.prasuco.gita.data.Translation>()) }
     var cms by remember { mutableStateOf(emptyList<com.prasuco.gita.data.Commentary>()) }
@@ -43,6 +45,9 @@ fun VerseScreen(repo: Repository, ch: Int, v: Int) {
         trs = repo.translations(ch, v); cms = repo.commentaries(ch, v)
         trSel = repo.prefs.trSource(); cmSel = repo.prefs.cmSource()
         marked = repo.db.users().progressOnce().any { it.chapter == ch && it.verse == v }
+        chapterName = try {
+            repo.chapters().first().firstOrNull { it.number == ch }?.nameTranslation ?: ""
+        } catch (_: Exception) { "" }
         // opening today's verse automagically marks it read (streak included)
         if (!marked) {
             try {
@@ -60,10 +65,9 @@ fun VerseScreen(repo: Repository, ch: Int, v: Int) {
     val cm = cms.firstOrNull { it.source == cmSel } ?: cms.firstOrNull()
     Surface(Modifier.fillMaxSize(), color = Bg) {
         Column(Modifier.fillMaxSize()) {
-            LazyColumn(Modifier.fillMaxSize().weight(1f).padding(horizontal = 20.dp), contentPadding = PaddingValues(top = 20.dp, bottom = 12.dp)) {
+            TopBarBack("$ch.$v", chapterName.ifBlank { null }, onBack)
+            LazyColumn(Modifier.fillMaxSize().weight(1f).padding(horizontal = 20.dp), contentPadding = PaddingValues(top = 12.dp, bottom = 12.dp)) {
             item {
-                Eyebrow("Verse $ch.$v")
-                Spacer(Modifier.height(8.dp))
                 AppCard(Modifier.fillMaxWidth()) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Eyebrow("Translation", Ink2)

@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import com.prasuco.gita.data.Repository
 
 @Composable
-fun ChapterDetailScreen(repo: Repository, ch: Int, openVerse: (Int, Int) -> Unit) {
+fun ChapterDetailScreen(repo: Repository, ch: Int, openVerse: (Int, Int) -> Unit, onBack: () -> Unit) {
     val chapters by repo.chapters().collectAsState(initial = emptyList())
     val verses by repo.versesIn(ch).collectAsState(initial = emptyList())
     val bookmarks by repo.bookmarks().collectAsState(initial = emptyList())
@@ -38,10 +38,12 @@ fun ChapterDetailScreen(repo: Repository, ch: Int, openVerse: (Int, Int) -> Unit
     }
     Surface(Modifier.fillMaxSize(), color = Bg) {
         Column(Modifier.fillMaxSize()) {
+            TopBarBack(
+                "Chapter $ch",
+                meta?.nameTranslation?.ifBlank { meta.nameTransliterated },
+                onBack
+            )
             AppCard(Modifier.padding(20.dp), shape = RoundedCornerShape(24.dp)) {
-                Eyebrow("Chapter $ch")
-                Text(meta?.nameTranslation?.ifBlank { meta.nameTransliterated } ?: "Chapter $ch",
-                    fontWeight = FontWeight.ExtraBold, fontSize = 24.sp, color = Ink)
                 if (meta?.meaning?.isNotBlank() == true) Text(meta.meaning, fontSize = 15.sp, fontWeight = FontWeight.Medium, color = Ink)
                 if (theme.isNotBlank()) Text(theme, fontSize = 13.sp, color = Ink2, modifier = Modifier.padding(top = 6.dp), lineHeight = 19.sp)
                 Spacer(Modifier.height(12.dp))

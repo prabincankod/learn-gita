@@ -51,6 +51,8 @@ class MainActivity : ComponentActivity() {
                     if (start == null) start = if (repo.prefs.isOnboarded()) Routes.HOME else Routes.ONBOARDING
                 }
                 // splash gates on this; shows instantly, navigates when ready
+                // deep-linked screens fall back Home when the stack is empty
+                val backOrHome: () -> Unit = { if (!nav.popBackStack()) nav.navigate(Routes.HOME) }
                 val back by nav.currentBackStackEntryAsState()
                 val route = back?.destination?.route ?: ""
                 // calm reader: bottom bar everywhere except onboarding + verse reader + splash
@@ -98,7 +100,7 @@ class MainActivity : ComponentActivity() {
                         composable(Routes.CHAPTERS) { ChaptersScreen(repo) { nav.navigate(Routes.chapter(it)) } }
                         composable(Routes.CHAPTER, arguments = listOf(navArgument("ch") { type = NavType.IntType })) {
                             val ch = it.arguments?.getInt("ch") ?: 1
-                            ChapterDetailScreen(repo, ch) { c, v -> nav.navigate(Routes.verse(c, v)) }
+                            ChapterDetailScreen(repo, ch, { c, v -> nav.navigate(Routes.verse(c, v)) }, backOrHome)
                         }
                         composable(
                             Routes.VERSE,
@@ -107,7 +109,7 @@ class MainActivity : ComponentActivity() {
                         ) {
                             val ch = it.arguments?.getInt("ch") ?: 1
                             val v = it.arguments?.getInt("v") ?: 1
-                            VerseScreen(repo, ch, v)
+                            VerseScreen(repo, ch, v, backOrHome)
                         }
                         composable(Routes.SEARCH) { SearchScreen(repo) { ch, v -> nav.navigate(Routes.verse(ch, v)) } }
                         composable(Routes.BOOKMARKS) { SavedScreen(repo, { ch, v -> nav.navigate(Routes.verse(ch, v)) }, { nav.navigate(Routes.HOME) { popUpTo(Routes.HOME) } }) }
