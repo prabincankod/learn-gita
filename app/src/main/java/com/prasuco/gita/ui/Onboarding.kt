@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -27,7 +28,7 @@ import kotlinx.coroutines.launch
 private data class IntroPage(
     val title: String,
     val sub: String,
-    val emoji: String,
+    val numeral: String,
     val top: Color,
     val bottom: Color
 )
@@ -36,17 +37,17 @@ private val INTROS = listOf(
     IntroPage(
         "A verse every morning",
         "One saying from Krishna, same for everyone.\nThirty seconds, no pressure, no grind.",
-        "🪷", Color(0xFF7C2D12), Color(0xFFFDE68A)
+        "I", Color(0xFF7C2D12), Color(0xFFFDE68A)
     ),
     IntroPage(
         "Wisdom for hard days",
         "Anxious? Stuck? Grieving? Ask what you're\nfacing and get verses that speak to it.",
-        "🧭", Color(0xFF312E81), Color(0xFFA5B4FC)
+        "II", Color(0xFF312E81), Color(0xFFA5B4FC)
     ),
     IntroPage(
         "Carry it with you",
         "A home-screen widget, a morning nudge,\nand verse cards saved to your gallery.",
-        "🖼️", Color(0xFF0F172A), Color(0xFF64748B)
+        "III", Color(0xFF0F172A), Color(0xFF64748B)
     )
 )
 
@@ -95,7 +96,7 @@ fun OnboardingScreen(repo: Repository, onDone: () -> Unit) {
                 ) {
                     if (s < INTROS.size) {
                         val page = INTROS[s]
-                        PlaceholderArt(page.emoji, page.top, page.bottom)
+                        PlaceholderArt(page.numeral, page.top, page.bottom)
                         Spacer(Modifier.height(20.dp))
                         Text(page.title, fontWeight = FontWeight.ExtraBold, fontSize = 26.sp, color = Ink, textAlign = TextAlign.Center)
                         Spacer(Modifier.height(8.dp))
@@ -123,9 +124,9 @@ fun OnboardingScreen(repo: Repository, onDone: () -> Unit) {
     }
 }
 
-/** Placeholder art until real illustrations land: gradient card + glyph. */
+/** Placeholder art until real illustrations land: gradient card + serif numeral. */
 @Composable
-fun PlaceholderArt(emoji: String, top: Color, bottom: Color) {
+fun PlaceholderArt(numeral: String, top: Color, bottom: Color) {
     val drift = rememberInfiniteTransition(label = "art")
     val float by drift.animateFloat(0f, 1f, infiniteRepeatable(tween(3600), RepeatMode.Reverse), label = "float")
     Box(
@@ -136,7 +137,12 @@ fun PlaceholderArt(emoji: String, top: Color, bottom: Color) {
         Box(
             Modifier.offset(y = (6 - float * 12).dp),
             contentAlignment = Alignment.Center
-        ) { Text(emoji, fontSize = 88.sp) }
+        ) {
+            Text(
+                numeral, fontSize = 88.sp, fontWeight = FontWeight.Black,
+                fontFamily = FontFamily.Serif, color = Color.White.copy(alpha = 0.94f)
+            )
+        }
     }
 }
 

@@ -31,36 +31,36 @@ import kotlinx.coroutines.launch
 
 // ---------- dilemma engine + search ----------
 
-data class Dilemma(val name: String, val emoji: String, val insight: String, val verses: List<Pair<Int, Int>>)
+data class Dilemma(val name: String, val insight: String, val verses: List<Pair<Int, Int>>)
 
 val DILEMMAS = listOf(
     Dilemma(
-        "Anxiety", "😟",
+        "Anxiety",
         "Krishna's answer to anxiety is a shift of ownership: do the work in front of you with full care, and release the grip on how it turns out. Most dread lives in imagined futures, not in the present action. Act now; let the fruit arrive on its own time.",
         listOf(2 to 47, 2 to 48, 6 to 5, 18 to 66)
     ),
     Dilemma(
-        "Grief", "💔",
-        "Krishna does not ask the grieving to stop feeling — he widens the frame. What you love is not only the form that passed; the essence continues, and sorrow itself is a season, not a home. Endure the winter of it; spring is built into the design.",
+        "Grief",
+        "Krishna does not ask the grieving to stop feeling — he widens the frame. What you love is not only the form that passed; the essence continues, and sorrow itself is a season, not a home. Sorrow is a season, not a home.",
         listOf(2 to 20, 2 to 14, 2 to 27, 18 to 66)
     ),
     Dilemma(
-        "Indecision", "🧭",
+        "Indecision",
         "Arjuna was frozen exactly where you are — between two painful options. Krishna's method: get honest counsel, weigh your duty over your comfort, reflect deeply, and then choose with your whole heart. Clarity follows commitment, rarely the other way around.",
         listOf(2 to 7, 18 to 63, 3 to 35, 2 to 48)
     ),
     Dilemma(
-        "Duty", "🛡️",
+        "Duty",
         "Your duty is not the most impressive task available — it is the one that is yours. Krishna ranks an imperfectly done own-duty above a perfectly done borrowed one. Stop auditioning for someone else's role; play your position fully.",
         listOf(2 to 47, 2 to 31, 3 to 35, 3 to 21)
     ),
     Dilemma(
-        "Fear of Failure", "🎯",
+        "Fear of Failure",
         "Failure stings most when your worth is riding on the outcome. Krishna separates the two: success and failure are weather, but steady effort is character. Stand up, act with a level mind, and let results be data, not verdicts.",
         listOf(2 to 47, 2 to 48, 2 to 3, 18 to 66)
     ),
     Dilemma(
-        "Burnout", "🕯️",
+        "Burnout",
         "Burnout is rarely about working hard — it is about working anxiously, pulled by craving and dread at once. Krishna prescribes evenness: same mind in effort and rest, in praise and blame. Recover your rhythm first; the output will follow.",
         listOf(2 to 48, 6 to 5, 3 to 35, 2 to 47)
     )
@@ -122,7 +122,7 @@ fun SearchScreen(repo: Repository, openVerse: (Int, Int) -> Unit) {
                         LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             items(DILEMMAS) { d ->
                                 AppPill(
-                                    label = "${d.emoji} ${d.name}",
+                                    label = d.name,
                                     selected = picked == d,
                                     onClick = { picked = if (picked == d) null else d }
                                 )

@@ -11,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.filled.Whatshot
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -86,10 +87,10 @@ fun AppPill(
 }
 
 @Composable
-fun EmptyState(emoji: String, title: String, sub: String, action: String, onAction: () -> Unit) {
+fun EmptyState(icon: ImageVector, title: String, sub: String, action: String, onAction: () -> Unit) {
     Column(Modifier.fillMaxWidth().padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally) {
         Box(Modifier.size(96.dp).clip(CircleShape).background(GoldSoft), contentAlignment = Alignment.Center) {
-            Text(emoji, fontSize = 44.sp)
+            Icon(icon, null, tint = DeepGold, modifier = Modifier.size(40.dp))
         }
         Spacer(Modifier.height(16.dp))
         Text(title, fontWeight = FontWeight.Bold, fontSize = 20.sp, color = Ink)
@@ -158,9 +159,11 @@ fun DuoButton(text: String, onClick: () -> Unit, enabled: Boolean = true, second
 fun TopBar(streak: Int, read: Int, onGear: () -> Unit) {
     Row(Modifier.fillMaxWidth().padding(horizontal = 20.dp, vertical = 12.dp), verticalAlignment = Alignment.CenterVertically) {
         Row(Modifier.clip(RoundedCornerShape(24.dp)).background(Pill).padding(horizontal = 16.dp, vertical = 8.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text("🔥 $streak day${if (streak == 1) "" else "s"}", fontWeight = FontWeight.Bold, fontSize = 15.sp, color = Ink)
+            Icon(Icons.Default.Whatshot, null, tint = Gold, modifier = Modifier.size(18.dp))
+            Spacer(Modifier.width(6.dp))
+            Text("$streak day${if (streak == 1) "" else "s"}", fontWeight = FontWeight.Bold, fontSize = 15.sp, color = Ink)
             Spacer(Modifier.width(12.dp))
-            Text("◆ $read / $TOTAL_VERSES", fontWeight = FontWeight.Bold, fontSize = 15.sp, color = Ink)
+            Text("$read / $TOTAL_VERSES", fontWeight = FontWeight.Bold, fontSize = 15.sp, color = Ink2)
         }
         Spacer(Modifier.weight(1f))
         IconButton(onClick = onGear) { Icon(Icons.Default.Settings, "settings", tint = Ink2) }

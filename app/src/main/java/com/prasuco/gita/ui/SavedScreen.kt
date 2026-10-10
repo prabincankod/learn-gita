@@ -6,6 +6,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -55,9 +57,9 @@ fun SavedScreen(repo: Repository, openVerse: (Int, Int) -> Unit, goToday: () -> 
             }
             if (items.isEmpty()) item {
                 EmptyState(
-                    emoji = "🪷",
+                    icon = Icons.Default.Bookmark,
                     title = "Nothing saved yet",
-                    sub = "Verses you save will wait for you here.",
+                    sub = "Saved verses appear here.",
                     action = "Read today's verse",
                     onAction = goToday
                 )
