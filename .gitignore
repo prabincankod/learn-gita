@@ -1,0 +1,27 @@
+# Local SDK location
+local.properties
+
+# Gradle / build outputs
+.gradle/
+build/
+app/build/
+*.hprof
+
+# Release signing — never commit keys or passwords
+*.jks
+*.keystore
+keystores/
+KEYSTORE_INFO.txt
+signing.properties
+
+# IDE
+.idea/
+*.iml
+.DS_Store
+.kotlin/
+
+# Local session notes (never commit)
+session-*.md
+
+# Local screenshots
+/*.png

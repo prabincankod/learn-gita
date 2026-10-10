@@ -1,0 +1,11 @@
+<resources>
+    <style name="Theme.Gita" parent="android:Theme.Material.Light.NoActionBar">
+        <item name="android:windowBackground">@color/background</item>
+        <item name="android:statusBarColor">@color/background</item>
+        <item name="android:navigationBarColor">@color/background</item>
+    </style>
+
+    <style name="Theme.Gita.Widget" parent="android:Theme.Material.Light">
+        <item name="android:windowBackground">@color/surface</item>
+    </style>
+</resources>

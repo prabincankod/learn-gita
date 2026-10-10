@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Compact 2x2: white card, saying + pill ref -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_card"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TODAY'S VERSE"
+        android:textColor="#94A3B8"
+        android:textSize="11sp"
+        android:textStyle="bold"
+        android:letterSpacing="0.08" />
+
+    <TextView
+        android:id="@+id/widget_verse_text"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:text="You have the right to your actions, but never to their fruits."
+        android:textColor="#0F172A"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/widget_verse_ref"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/widget_pill"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:paddingTop="6dp"
+        android:paddingBottom="6dp"
+        android:text="Krishna · 2.47"
+        android:textColor="#92400E"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+</LinearLayout>
