@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Geeta</string>
+    <string name="app_name">Learn Gita</string>
     <string name="widget_verse_name">Verse of the Day</string>
     <string name="widget_verse_desc">Today\'s verse from the Gita. Resize from 2x2 to 4x2.</string>
 </resources>
