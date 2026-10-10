@@ -9,4 +9,6 @@
     <color name="muted_text">#A3A3A3</color>
     <color name="divider">#E8E8E8</color>
     <color name="success">#2F7D32</color>
+    <!-- Adaptive icon background: sky sampled from the launcher artwork -->
+    <color name="ic_launcher_background">#5B9BD5</color>
 </resources>

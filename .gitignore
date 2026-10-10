@@ -25,3 +25,6 @@ session-*.md
 
 # Local screenshots
 /*.png
+
+# Launcher source art (derived mipmap assets are committed)
+/logo.png
