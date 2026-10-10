@@ -26,6 +26,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.prasuco.gita.audio.VerseSpeaker
 import com.prasuco.gita.data.Repository
 import com.prasuco.gita.data.Verse
@@ -60,7 +63,17 @@ fun HomeScreen(
     var hh by remember { mutableIntStateOf(7) }
     var mm by remember { mutableIntStateOf(0) }
     var pickTime by remember { mutableStateOf(false) }
-    LaunchedEffect(chapters) {
+    // reload counts when returning (e.g. verse auto-marked read in the reader)
+    var tick by remember { mutableIntStateOf(0) }
+    val lifecycle = LocalLifecycleOwner.current
+    DisposableEffect(lifecycle) {
+        val obs = LifecycleEventObserver { _, e ->
+            if (e == Lifecycle.Event.ON_RESUME) tick++
+        }
+        lifecycle.lifecycle.addObserver(obs)
+        onDispose { lifecycle.lifecycle.removeObserver(obs) }
+    }
+    LaunchedEffect(chapters, tick) {
         val dailyPair: Pair<Verse, String>? = try { repo.dailySaying() } catch (_: Exception) { null }
         daily = dailyPair?.first; saying = dailyPair?.second ?: ""
         daily?.let { d ->

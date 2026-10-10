@@ -50,11 +50,11 @@ class MainActivity : ComponentActivity() {
                     handleIntent(intent)?.let { start = it }
                     if (start == null) start = if (repo.prefs.isOnboarded()) Routes.HOME else Routes.ONBOARDING
                 }
-                if (start == null) { Surface { } ; return@GitaTheme }
+                // splash gates on this; shows instantly, navigates when ready
                 val back by nav.currentBackStackEntryAsState()
                 val route = back?.destination?.route ?: ""
-                // calm reader: bottom bar everywhere except onboarding + verse reader
-                val showBar = route != Routes.ONBOARDING && !route.startsWith("verse")
+                // calm reader: bottom bar everywhere except onboarding + verse reader + splash
+                val showBar = route != Routes.ONBOARDING && !route.startsWith("verse") && route != Routes.SPLASH
                 Scaffold(
                     containerColor = Bg,
                     bottomBar = {
@@ -86,7 +86,10 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 ) { pad ->
-                    NavHost(nav, startDestination = start!!, modifier = Modifier.padding(pad)) {
+                    NavHost(nav, startDestination = Routes.SPLASH, modifier = Modifier.padding(pad)) {
+                        composable(Routes.SPLASH) {
+                            SplashScreen(repo, start) { dest -> nav.navigate(dest) { popUpTo(0) } }
+                        }
                         composable(Routes.ONBOARDING) { OnboardingScreen(repo) { nav.navigate(Routes.HOME) { popUpTo(0) } } }
                         composable(Routes.HOME) {
                             HomeScreen(repo,

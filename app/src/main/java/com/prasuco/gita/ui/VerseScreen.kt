@@ -43,6 +43,16 @@ fun VerseScreen(repo: Repository, ch: Int, v: Int) {
         trs = repo.translations(ch, v); cms = repo.commentaries(ch, v)
         trSel = repo.prefs.trSource(); cmSel = repo.prefs.cmSource()
         marked = repo.db.users().progressOnce().any { it.chapter == ch && it.verse == v }
+        // opening today's verse automagically marks it read (streak included)
+        if (!marked) {
+            try {
+                val today = repo.dailyVerse()
+                if (today != null && today.chapter == ch && today.verse == v) {
+                    repo.markLearned(today)
+                    marked = true
+                }
+            } catch (_: Exception) { }
+        }
         bookmarked = repo.db.users().bookmark(ch, v) != null
         note = repo.db.users().note(ch, v)?.text ?: ""
     }

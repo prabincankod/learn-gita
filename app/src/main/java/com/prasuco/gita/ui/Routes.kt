@@ -1,6 +1,7 @@
 package com.prasuco.gita.ui
 
 object Routes {
+    const val SPLASH = "splash"
     const val ONBOARDING = "onboarding"
     const val HOME = "home"
     const val CHAPTERS = "chapters"
